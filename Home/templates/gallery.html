@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+
+<!-- Photo Gallery Section -->
+    <section id="gallery" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Photo Gallery</h2>
+            <div class="row g-3">
+                <!-- Add your images here -->
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/mortoli.jpg' %}" class="img-fluid" alt="Image 2">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/chainpur.jpg' %}" class="img-fluid" alt="Image 3">
+                    </div>
+                </div>
+                <!-- Repeat for more images -->
+            </div>
+            <div class="row g-3">
+                <!-- Add your images here -->
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 2">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 3">
+                    </div>
+                </div>
+                <!-- Repeat for more images -->
+            </div>
+            <div class="row g-3">
+                <!-- Add your images here -->
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 2">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img">
+                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 3">
+                    </div>
+                </div>
+                <!-- Repeat for more images -->
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

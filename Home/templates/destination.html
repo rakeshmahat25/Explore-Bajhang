@@ -1,15 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-
-    <!-- Introduction Section -->
-    <section id="about" class="py-5 text-center bg-light" style="background-image: url('{% static 'images/bajhang.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;color: #ffffff; filter: brightness(150%);">
-    <div class="container">
-        <h1 class="display-4">Welcome to Bajhang</h1>
-        <p class="lead">Discover the hidden beauty of Bajhang, a district in Nepal filled with breathtaking landscapes, cultural heritage, and adventurous destinations.</p>
-    </div>
-    </section>
-    <!-- Top Destinations Section -->
     <section id="destinations" class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-4">Top Destinations</h2>
@@ -39,7 +30,7 @@
                 <!-- Destination 2 -->
                 <div class="col-md-4">
                     <div class="card h-100">
-                        <img src="{% static 'images/Velata.jpg' %}" class="card-img-top" alt="Destination 1">
+                        <img src="{% static 'images/surma9.jpg' %}" class="card-img-top" alt="Destination 1">
                         <div class="card-body">
                             <h5 class="card-title">Surma Sarovar</h5>
                             <p class="card-text">Surma Sarobar is a beautiful lake located in the Surma Valley of Bajhang district in Nepal. This serene lake is surrounded by green hills and mountains, making it a peaceful spot for visitors. It’s a perfect place for relaxation and enjoying nature.
@@ -78,102 +69,72 @@
                     </div>
                 </div>
             </div>
+        <div class="container">
+
             <div class="row">
-                <h2 class="text-center mb-4"><a href="{% url 'destination' %}"> View More..</a> </h2>
+                <!-- Destination 4 -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="{% static 'images/Namaste.jpg' %}" class="card-img-top" alt="Destination 4">
+                        <div class="card-body">
+                            <h5 class="card-title">Baril Jharana</h5>
+                            <p>Baril Jharana is a stunning waterfall nestled in the picturesque Bajhang district of Nepal. Known for its breathtaking natural beauty, this cascading waterfall is a popular destination for nature enthusiasts and travelers seeking tranquility away from the hustle and bustle of city life. The pristine environment and serene surroundings make it a perfect spot for relaxation and adventure.</p>
+                            <div class="facts">
+                                <p><strong>Interesting Facts:</strong></p>
+                                <ul>
+                                    <li><strong>Height:</strong> Baril Jharana boasts an impressive height of approximately 80 meters, creating a spectacular view as the water plunges into the pool below.</li>
+                                    <li><strong>Location:</strong> Situated in the Bajhang district, it is accessible via a scenic trek through lush green landscapes, adding to the allure of the journey.</li>
+                                    <li><strong>Local Significance:</strong> The waterfall holds cultural significance for the local communities, often being featured in traditional stories and local folklore.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 5 -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="{% static 'images/mortoli.jpg' %}" class="card-img-top" alt="Destination 5">
+                        <div class="card-body">
+                            <h5 class="card-title">Saipal Base Camp</h5>
+                            <p>Saipal Base Camp, located in the remote Bajhang district of Nepal, is a breathtaking destination for trekkers and adventurers. Situated at the foot of the majestic Saipal Mountain, this base camp offers stunning views of the snow-capped peaks and an opportunity to immerse oneself in the pristine Himalayan environment. The journey to Saipal Base Camp is a memorable adventure through diverse landscapes, including lush forests, high-altitude meadows, and serene mountain lakes.</p>
+                            <div class="facts">
+                                <p><strong>Interesting Facts:</strong></p>
+                                <ul>
+                                    <li><strong>Elevation:</strong> Saipal Base Camp sits at an altitude of approximately 4,000 meters (13,123 feet), offering spectacular panoramic views of the Saipal Mountain range.</li>
+                                    <li><strong>Remote Location:</strong> The base camp is located in a remote area of the Bajhang district, making it a perfect destination for those seeking off-the-beaten-path trekking experiences away from the crowds.</li>
+                                    <li><strong>Cultural Significance:</strong> The trek to Saipal Base Camp passes through traditional villages where trekkers can experience the rich culture and lifestyle of the local communities, including unique customs and practices.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Destination 6 -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="{% static 'images/pankot.jpg' %}" class="card-img-top" alt="Destination 6">
+                        <div class="card-body">
+                            <h5 class="card-title">Bithhad Valley</h5>
+                            <p>Bithhad Valley is a captivating and relatively untouched destination located in the Bajhang district of Nepal. Known for its stunning natural landscapes and serene atmosphere, the valley offers an authentic experience of the Himalayan wilderness. Surrounded by lush green hills, terraced fields, and traditional villages, Bithhad Valley is a perfect spot for those seeking tranquility and natural beauty away from the more frequented tourist spots.</p>
+                            <div class="facts">
+                                <p><strong>Interesting Facts:</strong></p>
+                                <ul>
+                                    <li><strong>Scenic Landscapes:</strong> Bithhad Valley is renowned for its picturesque scenery, including rolling hills, verdant terraces, and panoramic views of the surrounding mountains, making it ideal for hiking and nature photography.</li>
+                                    <li><strong>Cultural Experience:</strong> The valley is home to local communities with rich cultural traditions. Visitors can experience the traditional lifestyle, customs, and festivals of the indigenous people of the region.</li>
+                                    <li><strong>Remote Charm:</strong> Due to its remote location, Bithhad Valley remains relatively untouched by mass tourism, providing a unique opportunity to explore a pristine environment and enjoy a peaceful retreat.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h2 class="text-center mb-4"><a href="{% url 'home' %}">Back to Home</a></h2>
             </div>
         </div>
     </section>
-
-    <!-- Photo Gallery Section -->
-    <section id="gallery" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Photo Gallery</h2>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/mortoli.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/chainpur.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Contact Us Section -->
-    <section id="contact" class="py-5" style="background-image: url('{% static 'images/Namaste1.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;color: #ffffff; filter: brightness(100%);">
-        <div class="container">
-            <h2 class="text-center mb-4">Contact Us</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <form>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Your Name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Your Email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
 {% endblock %}
