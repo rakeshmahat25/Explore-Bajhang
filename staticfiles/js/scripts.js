@@ -32,4 +32,27 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-var script = document.createElement('script'); script.id = 'chatbotscript'; script.dataset.accountid = 'KnvtBJmzDEwN/SD0R5JWog=='; script.dataset.websiteid = 'yUbl/JhM2rIpBzVHnJR6Hg=='; script.src = 'https://app.robofy.ai/bot/js/common.js?v='+ new Date().getTime(); document.head.appendChild(script);
+var script = document.createElement('script');
+script.id = 'chatbotscript';
+script.dataset.accountid = 'KnvtBJmzDEwN/SD0R5JWog==';
+script.dataset.websiteid = 'yUbl/JhM2rIpBzVHnJR6Hg==';
+script.src = 'https://app.robofy.ai/bot/js/common.js?v='+ new Date().getTime(); document.head.appendChild(script);
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const section = document.getElementById('about');
+    const images = [
+        '{% static 'images/bajhang.jpg' %}',
+        '{% static 'images/Namaste1.jpg' %}'
+//        '{% static 'images/bajhang3.jpg' %}'
+    ];
+    let currentIndex = 0;
+
+    function changeBackgroundImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        section.style.backgroundImage = `url('${images[currentIndex]}')`;
+    }
+
+    setInterval(changeBackgroundImage, 10000); // Change image every 10 seconds
+});
