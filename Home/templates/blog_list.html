@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Blog | Explore Bajhang{% endblock %}
+{% block meta_description %}Travel guides, tips, and inspiring stories from Bajhang, Nepal.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Travel Blog</h1>
+        <p class="lead">Stories, guides, and inspiration from Bajhang</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Categories</h5>
+                        <div class="list-group list-group-flush">
+                            <a href="{% url 'Home:blog_list' %}" class="list-group-item {% if not request.GET.category %}active{% endif %}">All</a>
+                            {% for cat in categories %}
+                            <a href="?category={{ cat.slug }}" class="list-group-item {% if request.GET.category == cat.slug %}active{% endif %}">{{ cat.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <form method="get" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search blogs..." value="{{ request.GET.q }}">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <div class="row g-4">
+                    {% for blog in blogs %}
+                    <div class="col-md-6">
+                        <div class="card h-100 blog-card">
+                            <img src="{{ blog.featured_image.url }}" class="card-img-top" alt="{{ blog.title }}" loading="lazy">
+                            <div class="card-body">
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar me-1"></i>{{ blog.published_at|date:"M d, Y" }}</span>
+                                    <span><i class="fas fa-clock me-1"></i>{{ blog.reading_time }} min</span>
+                                </div>
+                                <h5 class="card-title">{{ blog.title }}</h5>
+                                <p class="card-text">{{ blog.short_description|truncatewords:20 }}</p>
+                                <a href="{% url 'Home:blog_detail' blog.slug %}" class="btn btn-outline-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-blog"></i></div>
+                            <h3>No Blog Posts Yet</h3>
+                            <p>Our travel stories and guides are being prepared. Check back soon for inspiring content!</p>
+                            <a href="{% url 'Home:home' %}" class="btn btn-primary">Explore Bajhang</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

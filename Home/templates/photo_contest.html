@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Photo Contest | Explore Bajhang{% endblock %}
+{% block meta_description %}Enter the Explore Bajhang photo contest and showcase your best shots.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Photo Contest</h1>
+        <p class="lead">Share your best Bajhang photos and win!</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-5">
+                <div class="card shadow-lg border-0 sticky-top" style="top: 100px;">
+                    <div class="card-body p-5">
+                        <h3 class="mb-4 text-center">Submit Your Photo</h3>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Photo Title *</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Your Name *</label>
+                                <input type="text" name="author_name" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Your Email *</label>
+                                <input type="email" name="author_email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Photo *</label>
+                                <input type="file" name="image" class="form-control" accept="image/*" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit Entry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <h3 class="mb-4">Contest Entries</h3>
+                <div class="row g-4">
+                    {% for entry in entries %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <img src="{{ entry.image.url }}" class="card-img-top" alt="{{ entry.title }}" loading="lazy" style="height: 250px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ entry.title }}</h5>
+                                <p class="card-text small">{{ entry.description|truncatewords:15 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">By {{ entry.author_name }}</small>
+                                    {% if entry.is_winner %}<span class="badge bg-warning text-dark">Winner</span>{% endif %}
+                                </div>
+                                <div class="mt-2">
+                                    <span class="text-primary"><i class="fas fa-heart me-1"></i>{{ entry.vote_count }} votes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-camera"></i></div>
+                            <h3>No Entries Yet</h3>
+                            <p>Be the first to enter the photo contest and showcase your Bajhang photography!</p>
+                            <a href="#submit" class="btn btn-primary">Submit Your Photo</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-light">
+    <div class="container text-center">
+        <h3 class="mb-3">Contest Rules</h3>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <ul class="list-unstyled text-start">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Photos must be taken in Bajhang district</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Images must be your own work</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>No excessive editing or AI generation</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Submit high-resolution images (min 2000px)</li>
+                    <li><i class="fas fa-check text-success me-2"></i>One submission per person</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

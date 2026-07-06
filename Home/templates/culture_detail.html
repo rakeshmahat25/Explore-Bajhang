@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ culture.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ culture.short_description }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ culture.image.url }}');">
+    <div class="hero-content">
+        <span class="badge bg-secondary mb-3">{{ culture.get_culture_type_display }}</span>
+        <h1>{{ culture.title }}</h1>
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:culture_list' %}">Culture</a></li>
+            <li class="breadcrumb-item active">{{ culture.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="lead">{{ culture.description }}</p>
+            </div>
+            <div class="col-lg-4">
+                <img src="{{ culture.image.url }}" alt="{{ culture.title }}" class="img-fluid rounded-lg shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if related_items %}
+<section class="section section-light">
+    <div class="container">
+        <h2 class="mb-4">Related Cultural Experiences</h2>
+        <div class="row g-4">
+            {% for item in related_items %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <a href="{% url 'Home:culture_detail' item.slug %}" class="btn btn-outline-primary btn-sm">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

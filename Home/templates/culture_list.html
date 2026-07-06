@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cultural Heritage | Explore Bajhang{% endblock %}
+{% block meta_description %}Discover the rich cultural heritage of Bajhang - festivals, traditions, food, music and more.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/tribeni.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Cultural Heritage</h1>
+        <p class="lead">Traditions, festivals, and living culture of Bajhang</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="{% url 'Home:culture_list' %}" class="list-group-item list-group-item-action {% if not request.GET.type %}active{% endif %}">All</a>
+                    {% for value, label in culture_types %}
+                    <a href="?type={{ value }}" class="list-group-item list-group-item-action {% if request.GET.type == value %}active{% endif %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row g-4">
+                    {% for culture in cultures %}
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <img src="{{ culture.image.url }}" class="card-img-top" alt="{{ culture.title }}" loading="lazy">
+                            <div class="card-body">
+                                <span class="badge bg-secondary mb-2">{{ culture.get_culture_type_display }}</span>
+                                <h5 class="card-title">{{ culture.title }}</h5>
+                                <p class="card-text">{{ culture.short_description }}</p>
+                                <a href="{% url 'Home:culture_detail' culture.slug %}" class="btn btn-primary btn-sm">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-om"></i></div>
+                            <h3>No Cultural Items Found</h3>
+                            <p>Discover the rich heritage and traditions of Bajhang coming soon!</p>
+                            <a href="{% url 'Home:home' %}" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

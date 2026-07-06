@@ -1,17 +1,206 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}About Us | Explore Bajhang{% endblock %}
+{% block meta_description %}Learn about Explore Bajhang - our mission to showcase the hidden beauty of Bajhang district, Nepal{% endblock %}
+
 {% block content %}
-
-
-
-
-    <!-- Introduction Section -->
-    <section id="about" class="py-5 text-center bg-light" style="background-image: url('{% static 'images/bajhang.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;color: #ffffff; filter: brightness(150%);">
-    <div class="container">
-        <h1 class="display-4">Welcome to Bajhang</h1>
-        <p class="lead">Discover the hidden beauty of Bajhang, a district in Nepal filled with breathtaking landscapes, cultural heritage, and adventurous destinations.</p>
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}');">
+    <div class="hero-content">
+        <h1>About Explore Bajhang</h1>
+        <p class="lead">Dedicated to showcasing the hidden beauty of Bajhang, Nepal</p>
     </div>
-    </section>
+</section>
 
+<!-- Our Story -->
+<section class="section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="mb-4">Our Story</h2>
+                <p class="lead text-muted">Born from a passion for discovery and a love for our homeland</p>
+                <p>Explore Bajhang was founded with a simple mission: to share the breathtaking beauty, rich culture, and hidden gems of Bajhang district with the world. What started as a small initiative by local enthusiasts has grown into a comprehensive platform showcasing everything this magnificent region has to offer.</p>
+                <p>We believe that Bajhang holds some of Nepal's most pristine landscapes, most authentic cultural experiences, and most thrilling adventures. Our team works tirelessly to document, share, and promote these treasures while supporting local communities and sustainable tourism.</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/tribeni.jpg' %}" alt="Bajhang Landscape" class="img-fluid rounded-lg shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- Mission & Vision -->
+<section class="section section-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-bullseye fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="mb-4">Our Mission</h3>
+                        <p class="lead">To promote sustainable tourism in Bajhang by showcasing its natural beauty, cultural heritage, and adventure opportunities while supporting local communities and preserving our environment for future generations.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-eye fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="mb-4">Our Vision</h3>
+                        <p class="lead">To become the premier destination for travelers seeking authentic experiences in Nepal's lesser-explored regions, making Bajhang a recognized name in sustainable and adventure tourism.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Journey</h2>
+            <p>Milestones in our mission to showcase Bajhang</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="timeline">
+                    {% for milestone in milestones %}
+                    <div class="row align-items-center mb-5">
+                        <div class="col-md-5 text-end">
+                            <h3 class="text-primary">{{ milestone.year }}</h3>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h4>{{ milestone.title }}</h4>
+                            <p class="text-muted">{{ milestone.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What We Offer -->
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>What We Offer</h2>
+            <p>Comprehensive resources for exploring Bajhang</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-map-marked-alt fa-3x text-primary mb-3"></i>
+                        <h5>Destination Guides</h5>
+                        <p class="text-muted">Detailed information about every corner of Bajhang, from popular attractions to hidden gems.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-hiking fa-3x text-primary mb-3"></i>
+                        <h5>Adventure Planning</h5>
+                        <p class="text-muted">Expert guides for trekking, camping, and outdoor activities with safety tips and requirements.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-camera fa-3x text-primary mb-3"></i>
+                        <h5>Photo Gallery</h5>
+                        <p class="text-muted">Stunning visuals showcasing the beauty of Bajhang's landscapes, culture, and people.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-blog fa-3x text-primary mb-3"></i>
+                        <h5>Travel Stories</h5>
+                        <p class="text-muted">Real experiences from travelers and locals sharing their Bajhang adventures.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h5>Community Connection</h5>
+                        <p class="text-muted">Connect with local businesses, guides, and fellow travelers exploring Bajhang.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+                        <h5>Event Calendar</h5>
+                        <p class="text-muted">Stay updated with local festivals, events, and cultural celebrations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>What People Say</h2>
+            <p>Feedback from our community</p>
+        </div>
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-lg-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= testimonial.rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="mb-3">"{{ testimonial.content|truncatewords:25 }}"</p>
+                    <h6 class="mb-0">{{ testimonial.name }}</h6>
+                    {% if testimonial.title %}
+                    <small class="text-muted">{{ testimonial.title }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="section section-dark" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);">
+    <div class="container text-center text-white">
+        <h2 class="mb-4">Join Our Community</h2>
+        <p class="lead mb-4">Be part of the journey to discover and preserve Bajhang's beauty</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'Home:submit_story' %}" class="btn btn-light btn-lg">Share Your Story</a>
+            <a href="{% url 'Home:contact' %}" class="btn btn-outline-light btn-lg">Get in Touch</a>
+        </div>
+    </div>
+</section>
 {% endblock %}

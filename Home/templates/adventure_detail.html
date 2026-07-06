@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ adventure.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ adventure.description|truncatewords:160 }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ adventure.hero_image.url }}');">
+    <div class="hero-content">
+        <h1>{{ adventure.title }}</h1>
+        <p class="lead">{{ adventure.location }}</p>
+        <span class="badge bg-warning text-dark me-2">{{ adventure.get_difficulty_display }}</span>
+        <span class="badge bg-primary">{{ adventure.get_activity_type_display }}</span>
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:adventure_list' %}">Adventures</a></li>
+            <li class="breadcrumb-item active">{{ adventure.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">About This Adventure</h2>
+                <p class="lead">{{ adventure.description }}</p>
+
+                {% if adventure.equipment %}
+                <h3 class="mt-5"><i class="fas fa-tools text-primary me-2"></i>Required Equipment</h3>
+                <p>{{ adventure.equipment }}</p>
+                {% endif %}
+
+                {% if adventure.safety_info %}
+                <h3 class="mt-5"><i class="fas fa-shield-alt text-primary me-2"></i>Safety Information</h3>
+                <p>{{ adventure.safety_info }}</p>
+                {% endif %}
+
+                {% if adventure.guide_available and adventure.guide_info %}
+                <h3 class="mt-5"><i class="fas fa-user-tie text-primary me-2"></i>Guide Information</h3>
+                <p>{{ adventure.guide_info }}</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4 class="mb-4">Adventure Details</h4>
+                        <div class="mb-3">
+                            <strong>Duration:</strong>
+                            <p class="mb-0 ms-4">{{ adventure.duration }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Difficulty:</strong>
+                            <p class="mb-0 ms-4">{{ adventure.get_difficulty_display }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Activity:</strong>
+                            <p class="mb-0 ms-4">{{ adventure.get_activity_type_display }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Best Season:</strong>
+                            <p class="mb-0 ms-4">{{ adventure.best_season|default:'Year-round' }}</p>
+                        </div>
+                        {% if adventure.price_range %}
+                        <div class="mb-3">
+                            <strong>Price Range:</strong>
+                            <p class="mb-0 ms-4">{{ adventure.price_range }}</p>
+                        </div>
+                        {% endif %}
+                        <div class="d-grid gap-2 mt-4">
+                            <a href="{% url 'Home:contact' %}" class="btn btn-primary">Book This Adventure</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if adventure.images.all %}
+<section class="section section-light">
+    <div class="container">
+        <h2 class="mb-4">Photo Gallery</h2>
+        <div class="gallery-grid">
+            {% for image in adventure.images.all %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:adventure.title }}" loading="lazy">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if related_adventures %}
+<section class="section">
+    <div class="container">
+        <h2 class="mb-4">Similar Adventures</h2>
+        <div class="row g-4">
+            {% for adv in related_adventures %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ adv.hero_image.url }}" class="card-img-top" alt="{{ adv.title }}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ adv.title }}</h5>
+                        <a href="{% url 'Home:adventure_detail' adv.slug %}" class="btn btn-outline-primary btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

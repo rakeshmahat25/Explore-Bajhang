@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 40vh;">
+    <div class="hero-content">
+        <h1>Search Results</h1>
+        <p class="lead">{% if query %}Results for "{{ query }}"{% else %}Enter a search term{% endif %}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <form method="get" class="mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control form-control-lg" placeholder="Search destinations, blogs, events..." value="{{ query }}">
+                        <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {% if query %}
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <h4 class="mb-4">Destinations ({{ results.destinations|length }})</h4>
+                {% if results.destinations %}
+                <div class="row g-3 mb-5">
+                    {% for dest in results.destinations %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-4">
+                                    <img src="{{ dest.hero_image.url }}" class="img-fluid rounded-start h-100" alt="{{ dest.title }}" style="object-fit: cover;">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <h6 class="card-title">{{ dest.title }}</h6>
+                                        <p class="small text-muted">{{ dest.short_description|truncatewords:10 }}</p>
+                                        <a href="{% url 'Home:destination_detail' dest.slug %}" class="btn btn-sm btn-primary">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}<div class="col-12 mb-5"><p class="text-muted text-center py-4">No destinations found matching your search.</p></div>{% endif %}
+
+                <h4 class="mb-4">Blog Posts ({{ results.blogs|length }})</h4>
+                {% if results.blogs %}
+                <div class="row g-3 mb-5">
+                    {% for blog in results.blogs %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ blog.title }}</h6>
+                                <p class="small text-muted">{{ blog.short_description|truncatewords:15 }}</p>
+                                <a href="{% url 'Home:blog_detail' blog.slug %}" class="btn btn-sm btn-outline-primary">Read</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}<div class="col-12 mb-5"><p class="text-muted text-center py-4">No blog posts found matching your search.</p></div>{% endif %}
+
+                <h4 class="mb-4">Events ({{ results.events|length }})</h4>
+                {% if results.events %}
+                <div class="row g-3 mb-5">
+                    {% for event in results.events %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ event.title }}</h6>
+                                <p class="small text-muted">{{ event.short_description|truncatewords:15 }}</p>
+                                <a href="{% url 'Home:event_detail' event.slug %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}<div class="col-12 mb-5"><p class="text-muted text-center py-4">No events found matching your search.</p></div>{% endif %}
+
+                <h4 class="mb-4">Community Stories ({{ results.stories|length }})</h4>
+                {% if results.stories %}
+                <div class="row g-3">
+                    {% for story in results.stories %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ story.title }}</h6>
+                                <p class="small text-muted">{{ story.short_description|truncatewords:15 }}</p>
+                                <a href="{% url 'Home:story_detail' story.slug %}" class="btn btn-sm btn-outline-primary">Read</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}<div class="col-12"><p class="text-muted text-center py-4">No stories found matching your search.</p></div>{% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h5>Didn't find what you're looking for?</h5>
+                        <p class="text-muted">Try browsing our categories or contact us for help.</p>
+                        <a href="{% url 'Home:destination_list' %}" class="btn btn-outline-primary w-100 mb-2">Browse Destinations</a>
+                        <a href="{% url 'Home:contact' %}" class="btn btn-primary w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center">
+            <p class="lead">Please enter a search term to find destinations, blog posts, events, and more.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

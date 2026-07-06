@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ business.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ business.short_description|default:business.description|truncatewords:160 }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ business.cover_image.url }}'); min-height: 50vh;">
+    <div class="hero-content">
+        <span class="badge bg-warning text-dark mb-3">{{ business.get_listing_type_display }}</span>
+        <h1>{{ business.title }}</h1>
+        {% if business.address %}<p class="lead"><i class="fas fa-map-marker-alt me-2"></i>{{ business.address }}</p>{% endif %}
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:business_list' %}">Businesses</a></li>
+            <li class="breadcrumb-item active">{{ business.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">About {{ business.title }}</h2>
+                <p class="lead">{{ business.description }}</p>
+
+                {% if business.images.all %}
+                <h3 class="mt-5 mb-4">Photo Gallery</h3>
+                <div class="row g-3">
+                    {% for img in business.images.all %}
+                    <div class="col-md-4">
+                        <div class="gallery-item">
+                            <img src="{{ img.image.url }}" alt="{{ img.alt_text|default:business.title }}" loading="lazy">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4 class="mb-4">Contact Information</h4>
+                        <div class="mb-3">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            <strong>Phone:</strong><br><span class="ms-4">{{ business.phone|default:'N/A' }}</span>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            <strong>Email:</strong><br><span class="ms-4">{{ business.email|default:'N/A' }}</span>
+                        </div>
+                        {% if business.website %}
+                        <div class="mb-3">
+                            <i class="fas fa-globe text-primary me-2"></i>
+                            <strong>Website:</strong><br><span class="ms-4"><a href="{{ business.website }}" target="_blank">Visit Website</a></span>
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <i class="fas fa-map text-primary me-2"></i>
+                            <strong>Address:</strong><br><span class="ms-4">{{ business.address|default:'N/A' }}</span>
+                        </div>
+                        <div class="business-rating mb-4">
+                            <strong>Rating:</strong><br>
+                            {% for i in "12345" %}<i class="fas fa-star {% if forloop.counter <= business.average_rating|floatformat:"0" %}text-warning{% else %}text-muted{% endif %}"></i>{% endfor %}
+                            <span>({{ business.review_count }} reviews)</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'Home:contact' %}" class="btn btn-primary">Contact Business</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-light">
+    <div class="container">
+        <h3 class="mb-4">Reviews</h3>
+        <form method="post" class="card mb-4">
+            {% csrf_token %}
+            <div class="card-body">
+                <h5 class="mb-3">Leave a Review</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" name="author_name" class="form-control" placeholder="Your Name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" name="author_email" class="form-control" placeholder="Your Email" required>
+                    </div>
+                    <div class="col-12">
+                        <select name="rating" class="form-select" required>
+                            <option value="">Select Rating</option>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Average</option>
+                            <option value="2">2 - Poor</option>
+                            <option value="1">1 - Terrible</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <textarea name="comment" class="form-control" rows="3" placeholder="Your review..." required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row g-4">
+            {% for review in reviews %}
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <strong>{{ review.author_name }}</strong>
+                            <div class="business-rating">
+                                {% for i in "12345" %}<i class="fas fa-star {% if forloop.counter <= review.rating %}text-warning{% else %}text-muted{% endif %}"></i>{% endfor %}
+                            </div>
+                        </div>
+                        <p class="card-text">{{ review.comment }}</p>
+                        <small class="text-muted">{{ review.created_at|date:"M d, Y" }}</small>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-star"></i></div>
+                    <h3>No Reviews Yet</h3>
+                    <p>Be the first to share your experience with this business!</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

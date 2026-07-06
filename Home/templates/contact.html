@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us | Explore Bajhang{% endblock %}
+{% block meta_description %}Get in touch with Explore Bajhang. We'd love to hear from you!{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/Namaste1.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Contact Us</h1>
+        <p class="lead">We'd love to hear from you</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6">
+                <div class="card shadow-lg border-0 h-100">
+                    <div class="card-body p-5">
+                        <h3 class="mb-4">Send us a Message</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label">Your Name *</label>
+                                <input type="text" name="name" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Your Email *</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Subject</label>
+                                <input type="text" name="subject" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Message *</label>
+                                <textarea name="message" class="form-control" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow-lg border-0 h-100">
+                    <div class="card-body p-5">
+                        <h3 class="mb-4">Get in Touch</h3>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-map-marker-alt text-primary me-3"></i>Location</h5>
+                            <p class="ms-5">Bajhang District, Far-Western Region, Nepal</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-envelope text-primary me-3"></i>Email</h5>
+                            <p class="ms-5">info@explorebajhang.com</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-phone text-primary me-3"></i>Phone</h5>
+                            <p class="ms-5">+977-XXXXXXXXX</p>
+                        </div>
+                        <div class="mb-4">
+                            <h5><i class="fas fa-clock text-primary me-3"></i>Business Hours</h5>
+                            <p class="ms-5">Sunday - Friday: 9:00 AM - 6:00 PM</p>
+                        </div>
+                        <div class="social-links mt-5">
+                            <a href="https://www.facebook.com/letsexplorebajhang/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/letsexplorebajhang/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@explorebajhang" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="https://www.tiktok.com/@letsexplorebajhang" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section-light">
+    <div class="container">
+        <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+        <div class="accordion max-w-800 mx-auto" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">How do I plan a trip to Bajhang?</button></h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">You can start by exploring our destinations and adventure pages, then contact us for customized travel packages and local guide services.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">What is the best time to visit Bajhang?</button></h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">The best time to visit is during spring (March-May) and autumn (September-November) when the weather is pleasant and views are clear.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">Are there local guides available?</button></h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Yes, we can connect you with experienced local guides who know the terrain, culture, and safety protocols.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

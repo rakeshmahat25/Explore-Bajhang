@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Business Directory | Explore Bajhang{% endblock %}
+{% block meta_description %}Find hotels, restaurants, travel agencies, guides and more in Bajhang.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/chainpur.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Business Directory</h1>
+        <p class="lead">Support local tourism businesses</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Categories</h5>
+                        <div class="list-group list-group-flush">
+                            <a href="{% url 'Home:business_list' %}" class="list-group-item {% if not request.GET.type %}active{% endif %}">All</a>
+                            {% for value, label in listing_types %}
+                            <a href="?type={{ value }}" class="list-group-item {% if request.GET.type == value %}active{% endif %}">{{ label }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <form method="get" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search businesses..." value="{{ request.GET.q }}">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <div class="row g-4">
+                    {% for business in businesses %}
+                    <div class="col-md-6">
+                        <div class="card h-100 business-card">
+                            <div class="position-relative">
+                                <img src="{{ business.cover_image.url }}" class="card-img-top" alt="{{ business.title }}" loading="lazy" style="height: 200px; object-fit: cover;">
+                                {% if business.is_featured %}<span class="business-badge">Featured</span>{% endif %}
+                                {% if business.is_premium %}<span class="badge bg-warning text-dark position-absolute" style="top: 10px; right: 10px;">Premium</span>{% endif %}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ business.title }}</h5>
+                                <span class="badge bg-secondary mb-2">{{ business.get_listing_type_display }}</span>
+                                <p class="card-text small">{{ business.short_description|truncatewords:15 }}</p>
+                                <div class="business-rating mb-2">
+                                    {% for i in "12345" %}<i class="fas fa-star {% if forloop.counter <= business.average_rating|floatformat:"0" %}text-warning{% else %}text-muted{% endif %}"></i>{% endfor %}
+                                    <small class="text-muted">({{ business.review_count }} reviews)</small>
+                                </div>
+                                {% if business.phone %}<p class="small text-muted mb-1"><i class="fas fa-phone me-2"></i>{{ business.phone }}</p>{% endif %}
+                                {% if business.address %}<p class="small text-muted mb-0"><i class="fas fa-map-marker-alt me-2"></i>{{ business.address }}</p>{% endif %}
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a href="{% url 'Home:business_detail' business.slug %}" class="btn btn-outline-primary w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="empty-state">
+                            <div class="empty-state-icon"><i class="fas fa-building"></i></div>
+                            <h3>No Businesses Found</h3>
+                            <p>Support local tourism by listing your business or check back soon!</p>
+                            <a href="{% url 'Home:contact' %}" class="btn btn-primary">List Your Business</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

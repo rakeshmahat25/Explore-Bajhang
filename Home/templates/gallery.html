@@ -1,73 +1,63 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}Photo Gallery | Explore Bajhang{% endblock %}
+{% block meta_description %}Explore stunning photos of Bajhang's landscapes, culture, and people.{% endblock %}
+
 {% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Photo Gallery</h1>
+        <p class="lead">Capturing the beauty of Bajhang</p>
+    </div>
+</section>
 
-
-
-
-<!-- Photo Gallery Section -->
-    <section id="gallery" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Photo Gallery</h2>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 1">
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            {% for image in images %}
+            <div class="col-lg-4 col-md-6">
+                <div class="gallery-item">
+                    <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:'Gallery Image' }}" loading="lazy">
+                    <div class="gallery-overlay">
+                        <span class="gallery-caption">{{ image.caption|default:image.gallery.title }}</span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/mortoli.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/chainpur.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
             </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-images"></i></div>
+                    <h3>No Gallery Items Yet</h3>
+                    <p>Our gallery is being updated with stunning photos of Bajhang. Check back soon!</p>
+                    <a href="{% url 'Home:contact' %}" class="btn btn-primary">Contribute Photos</a>
                 </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
             </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
 
-
+{% if videos %}
+<section class="section section-light">
+    <div class="container">
+        <h2 class="mb-4">Video Highlights</h2>
+        <div class="row g-4">
+            {% for video in videos %}
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="{{ video.video_url }}" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ video.title }}</h5>
+                        <p class="small text-muted">{{ video.description|truncatewords:15 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}

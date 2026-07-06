@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ event.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ event.short_description|default:event.description|truncatewords:160 }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ event.image.url }}');">
+    <div class="hero-content">
+        <h1>{{ event.title }}</h1>
+        <p class="lead">{{ event.location }}</p>
+        <div class="mt-4" data-countdown="{{ event.start_date.isoformat }}"></div>
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:event_list' %}">Events</a></li>
+            <li class="breadcrumb-item active">{{ event.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">About This Event</h2>
+                <p class="lead">{{ event.description }}</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4>Event Details</h4>
+                        <div class="mb-3">
+                            <i class="fas fa-calendar text-primary me-2"></i>
+                            <strong>Date:</strong><br>
+                            <span class="ms-4">{{ event.start_date|date:"F d, Y" }}</span>
+                            {% if event.end_date %}<br><span class="ms-4">to {{ event.end_date|date:"F d, Y" }}</span>{% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            <strong>Location:</strong><br>
+                            <span class="ms-4">{{ event.location }}</span>
+                        </div>
+                        {% if event.registration_url %}
+                        <div class="d-grid mt-4">
+                            <a href="{{ event.registration_url }}" class="btn btn-primary" target="_blank">Register Now</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if related_events %}
+<section class="section section-light">
+    <div class="container">
+        <h2 class="mb-4">Other Events</h2>
+        <div class="row g-4">
+            {% for ev in related_events %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ ev.image.url }}" class="card-img-top" alt="{{ ev.title }}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ev.title }}</h5>
+                        <a href="{% url 'Home:event_detail' ev.slug %}" class="btn btn-outline-primary btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

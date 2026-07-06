@@ -1,179 +1,468 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}{{ site_settings.site_title|default:'Explore Bajhang' }} | Discover the Hidden Beauty of Bajhang, Nepal{% endblock %}
+{% block meta_description %}{{ site_settings.site_description|default:'Discover breathtaking landscapes, rich cultural heritage, and adventure destinations in Bajhang, Nepal' }}{% endblock %}
+
 {% block content %}
-
-    <!-- Introduction Section -->
-    <section id="about" class="py-5 text-center bg-light" style="background-image: url('{% static 'images/bajhang.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;color: #ffffff; filter: brightness(150%);">
-    <div class="container">
-        <h1 class="display-4">Welcome to Bajhang</h1>
-        <p class="lead">Discover the hidden beauty of Bajhang, a district in Nepal filled with breathtaking landscapes, cultural heritage, and adventurous destinations.</p>
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); filter: brightness(1.3);">
+    <div class="hero-content animate-fadeInUp">
+        <h1 class="display-3 fw-bold" style="color: #ffffff; text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.5);">{{ destination.title|default:'Discover the Hidden Beauty of Bajhang' }}</h1>
+        <p class="lead" style="color: #ffffff; text-shadow: 1px 1px 4px rgba(0,0,0,0.9);">Experience breathtaking landscapes, rich cultural heritage, and unforgettable adventures in the heart of Nepal</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'Home:destination_list' %}" class="btn btn-primary btn-lg">Explore Destinations</a>
+            <a href="{% url 'Home:adventure_list' %}" class="btn btn-outline-light btn-lg">Adventure Activities</a>
+        </div>
     </div>
-    </section>
-    <!-- Top Destinations Section -->
-    <section id="destinations" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-4">Top Destinations</h2>
-            <div class="row">
-                <!-- Destination 1 -->
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img src="{% static 'images/chainpur.jpg' %}" class="card-img-top" alt="Destination 2">
-                        <div class="card-body">
-                            <h5 class="card-title">Chainpur Bazzar</h5>
-                            <p>Chainpur Bazar is a vibrant market town located in the Bajhang district of Nepal. It is a central hub for local trade and cultural activities in this remote area. The bazar is known for its bustling markets, traditional Nepalese atmosphere, and the friendly spirit of its residents.</p>
+</section>
 
-                            <div class="facts">
-                                <p><strong>Interesting Facts:</strong></p>
-                                <ul>
-                                    <li><strong>Local Market:</strong> Chainpur Bazar is a key place for shopping, where you can find everything from fresh fruits and vegetables to handmade crafts and clothing.</li>
-                                    <li><strong>Cultural Hub:</strong> The bazar showcases traditional Nepalese culture through its lively market scenes and local festivals.</li>
-                                    <li><strong>Beautiful Scenery:</strong> The town is surrounded by stunning landscapes, including hills and terraced fields, offering picturesque views and a serene environment.</li>
-                                    <li><strong>Historical Importance:</strong> Chainpur Bazar has been a significant center of trade and culture for many years in the Bajhang district.</li>
-                                    <li><strong>Delicious Food:</strong> Visitors can enjoy a variety of local dishes and snacks, reflecting the rich culinary traditions of the region.</li>
-                                </ul>
+<!-- Monthly Theme Section -->
+{% if monthly_theme %}
+<section class="section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <span class="badge bg-primary mb-3">{{ monthly_theme.month }} {{ monthly_theme.year }}</span>
+                <h2 class="mb-4">{{ monthly_theme.title }}</h2>
+                <p class="lead text-muted">{{ monthly_theme.description }}</p>
+                {% if monthly_theme.image %}
+                <img src="{{ monthly_theme.image.url }}" alt="{{ monthly_theme.title }}" class="img-fluid rounded-lg mt-4">
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4">
+                    {% for weekly in monthly_theme.weekly_themes.all %}
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-calendar-week text-primary me-2"></i>Week {{ weekly.week_number }}</h5>
+                                <p class="card-text">{{ weekly.title }}</p>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
-                <!-- Destination 2 -->
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img src="{% static 'images/Velata.jpg' %}" class="card-img-top" alt="Destination 1">
-                        <div class="card-body">
-                            <h5 class="card-title">Surma Sarovar</h5>
-                            <p class="card-text">Surma Sarobar is a beautiful lake located in the Surma Valley of Bajhang district in Nepal. This serene lake is surrounded by green hills and mountains, making it a peaceful spot for visitors. It’s a perfect place for relaxation and enjoying nature.
+<!-- Weekly Featured Destination -->
+{% if weekly_featured %}
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Weekly Featured Destination</h2>
+            <p>This week's must-visit location</p>
+        </div>
+        <div class="featured-card" style="background-image: url('{{ weekly_featured.hero_image.url }}');">
+            <div class="featured-card-content">
+                <span class="badge bg-warning text-dark mb-3">Featured This Week</span>
+                <h3 class="text-white mb-3">{{ weekly_featured.title }}</h3>
+                <p class="text-white mb-4">{{ weekly_featured.short_description }}</p>
+                <a href="{% url 'Home:destination_detail' weekly_featured.slug %}" class="btn btn-light">Discover More</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
-                            <p><strong>Interesting Facts</strong>:</p>
-                            <ul>
-                            <li><strong>Scenic Beauty:</strong> The lake is known for its stunning views, with clear water reflecting the surrounding hills and mountains.</li>
-                            <li><strong>Peaceful Retreat:</strong> Because it’s in a remote area, Surma Sarobar is less crowded, offering a quiet escape from city life.</li>
-                            <li><strong>Local Spot:</strong> It’s a favorite spot for locals, who come here for picnics and to enjoy the natural beauty of their region.</li>
-                            <li><strong>Wildlife:</strong> The area around the lake is home to various birds and wildlife, making it a great place for nature enthusiasts.</li>
-                            <li><strong>Hidden Gem:</strong> Surma Sarobar is not as well-known as other tourist spots, which adds to its charm and makes it a special place for those who discover it.</li>
-                        </ul>                        </div>
+<!-- Featured Destinations -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Featured Destinations</h2>
+            <p>Explore the most beautiful places in Bajhang</p>
+        </div>
+        <div class="row g-4">
+            {% for destination in destinations %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 blog-card">
+                    <div class="position-relative">
+                        <img src="{{ destination.hero_image.url }}" class="card-img-top" alt="{{ destination.title }}">
+                        {% if destination.is_featured %}
+                        <span class="business-badge">Featured</span>
+                        {% endif %}
+                        <div class="position-absolute bottom-0 start-0 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); width: 100%;">
+                            <span class="text-white"><i class="fas fa-map-marker-alt me-2"></i>{{ destination.location|default:'Bajhang' }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ destination.title }}</h5>
+                        <p class="card-text">{{ destination.short_description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted small"><i class="fas fa-eye me-1"></i>{{ destination.visit_count }} views</span>
+                            <a href="{% url 'Home:destination_detail' destination.slug %}" class="btn btn-outline-primary btn-sm">Explore</a>
+                        </div>
                     </div>
                 </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:destination_list' %}" class="btn btn-primary btn-lg">View All Destinations</a>
+        </div>
+    </div>
+</section>
+
+<!-- Adventure Section -->
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Adventure Awaits</h2>
+            <p>Thrilling activities for every adventure seeker</p>
+        </div>
+        <div class="row g-4">
+            {% for adventure in adventures %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <img src="{{ adventure.hero_image.url }}" class="card-img-top" alt="{{ adventure.title }}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-primary">{{ adventure.get_activity_type_display }}</span>
+                            <span class="badge bg-warning text-dark">{{ adventure.get_difficulty_display }}</span>
+                        </div>
+                        <h5 class="card-title">{{ adventure.title }}</h5>
+                        <p class="card-text">{{ adventure.short_description|default:adventure.description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span><i class="fas fa-clock me-1"></i>{{ adventure.duration }}</span>
+                            <span><i class="fas fa-map-marker-alt me-1"></i>{{ adventure.location }}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'Home:adventure_detail' adventure.slug %}" class="btn btn-outline-primary w-100">Plan Your Adventure</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:adventure_list' %}" class="btn btn-primary btn-lg">Explore All Adventures</a>
+        </div>
+    </div>
+</section>
+
+<!-- Cultural Heritage Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Cultural Heritage</h2>
+            <p>Discover the rich traditions and customs of Bajhang</p>
+        </div>
+        <div class="row g-4">
+            {% for culture in cultures %}
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center">
+                    <img src="{{ culture.image.url }}" class="card-img-top" alt="{{ culture.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ culture.title }}</h5>
+                        <p class="card-text small">{{ culture.short_description|truncatewords:15 }}</p>
+                        <a href="{% url 'Home:culture_detail' culture.slug %}" class="btn btn-outline-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:culture_list' %}" class="btn btn-primary btn-lg">Explore Culture</a>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Upcoming Events</h2>
+            <p>Don't miss these exciting events in Bajhang</p>
+        </div>
+        <div class="row g-4">
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 event-card">
+                    <div class="position-relative">
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                        <div class="event-date">
+                            <span class="day">{{ event.start_date|date:"d" }}</span>
+                            <span class="month">{{ event.start_date|date:"M" }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.short_description|default:event.description|truncatewords:15 }}</p>
+                        <div class="d-flex align-items-center text-muted small mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>{{ event.location }}
+                        </div>
+                        <div class="d-flex align-items-center text-muted small">
+                            <i class="fas fa-calendar-alt me-2"></i>{{ event.start_date|date:"F d, Y" }}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'Home:event_detail' event.slug %}" class="btn btn-outline-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:event_list' %}" class="btn btn-primary btn-lg">View All Events</a>
+        </div>
+    </div>
+</section>
+
+<!-- Photo Gallery Preview -->
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Photo Gallery</h2>
+            <p>Capturing the beauty of Bajhang</p>
+        </div>
+        <div class="gallery-grid">
+            {% for image in images %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:'Gallery Image' }}">
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">{{ image.caption|default:'Bajhang Beauty' }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:gallery' %}" class="btn btn-primary btn-lg">View Full Gallery</a>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Blogs -->
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Latest Stories</h2>
+            <p>Travel guides, tips, and inspiring stories</p>
+        </div>
+        <div class="row g-4">
+            {% for blog in blogs %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 blog-card">
+                    <img src="{{ blog.featured_image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                    <div class="card-body">
+                        <div class="blog-meta">
+                            <span><i class="fas fa-calendar me-1"></i>{{ blog.published_at|date:"M d, Y" }}</span>
+                            {% if blog.reading_time %}
+                            <span><i class="fas fa-clock me-1"></i>{{ blog.reading_time }} min read</span>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ blog.title }}</h5>
+                        <p class="card-text">{{ blog.short_description|truncatewords:20 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top">
+                        <a href="{% url 'Home:blog_detail' blog.slug %}" class="btn btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:blog_list' %}" class="btn btn-primary btn-lg">Read All Stories</a>
+        </div>
+    </div>
+</section>
+
+<!-- Community Stories -->
+{% if stories %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Community Stories</h2>
+            <p>Real experiences from travelers like you</p>
+        </div>
+        <div class="row g-4">
+            {% for story in stories %}
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{{ story.cover_image.url }}" class="card-img-top" alt="{{ story.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ story.title }}</h5>
+                        <p class="card-text">{{ story.short_description|default:story.content|truncatewords:25 }}</p>
+                        <p class="small text-muted mb-0">By {{ story.author_name }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'Home:story_detail' story.slug %}" class="btn btn-outline-primary w-100">Read Story</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:submit_story' %}" class="btn btn-accent btn-lg">Share Your Story</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Video Highlights -->
+{% if videos %}
+<section class="section section-dark">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="text-white">Video Highlights</h2>
+            <p class="text-white-50">Experience Bajhang in motion</p>
+        </div>
+        <div class="row g-4">
+            {% for video in videos %}
+            <div class="col-lg-4">
+                <div class="card border-0" style="background: var(--color-primary-dark);">
+                    <div class="ratio ratio-16x9">
+                        <iframe src="{{ video.video_url }}" 
+                                title="{{ video.title }}" 
+                                allowfullscreen
+                                class="rounded-lg"></iframe>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-white">{{ video.title }}</h5>
+                        <p class="card-text text-white-50">{{ video.description|truncatewords:15 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>What Travelers Say</h2>
+            <p>Reviews from our visitors</p>
+        </div>
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-lg-4 col-md-6">
+                <div class="testimonial-card">
+                    {% if testimonial.avatar %}
+                    <img src="{{ testimonial.avatar.url }}" alt="{{ testimonial.name }}" class="testimonial-avatar">
+                    {% else %}
+                    <div class="testimonial-avatar bg-primary d-flex align-items-center justify-content-center text-white" 
+                         style="width: 80px; height: 80px; border-radius: 50%;">
+                        <span class="fs-4">{{ testimonial.name|first }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="testimonial-rating">
+                        {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= testimonial.rating %}
+                        <i class="fas fa-star"></i>
+                        {% else %}
+                        <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <p class="mb-3">{{ testimonial.content|truncatewords:30 }}</p>
+                    <h6 class="mb-0">{{ testimonial.name }}</h6>
+                    {% if testimonial.title %}
+                    <small class="text-muted">{{ testimonial.title }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Travel Packages -->
+{% if packages %}
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Travel Packages</h2>
+            <p>Curated experiences for the perfect trip</p>
+        </div>
+        <div class="row g-4">
+            {% for package in packages %}
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{{ package.image.url }}" class="card-img-top" alt="{{ package.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ package.title }}</h5>
+                        <p class="card-text">{{ package.short_description|default:package.description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-primary"><i class="fas fa-clock me-1"></i>{{ package.duration }}</span>
+                            <span class="badge bg-success">{% if package.discounted_price %}{{ package.discounted_price }}{% else %}{{ package.price }}{% endif %} NPR</span>
+                        </div>
+                        <p class="small text-muted">{{ package.includes|truncatewords:10 }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="{% url 'Home:package_detail' package.slug %}" class="btn btn-primary w-100">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'Home:package_list' %}" class="btn btn-primary btn-lg">View All Packages</a>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 
-                <!-- Destination 3 -->
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="card-img-top" alt="Destination 3">
-                        <div class="card-body">
-                            <h5 class="card-title">Khaptad National Park</h5>
-                            <p>Khaptad National Park is a stunning protected area located in the Far-Western region of Nepal. Established in 1984, it is known for its rich biodiversity, lush landscapes, and serene beauty. The park covers an area of around 225 square kilometers and is home to a variety of flora and fauna, including rare and endangered species.</p>
 
-                            <div class="facts">
-                                <p><strong>Interesting Facts:</strong></p>
-                                <ul>
-                                    <li><strong>Diverse Wildlife:</strong> The park is home to various animals such as the Himalayan tahr, leopard, and red panda, as well as numerous bird species.</li>
-                                    <li><strong>Scenic Beauty:</strong> Khaptad National Park offers breathtaking views of rolling hills, meadows, and forested areas, making it a great spot for nature lovers and photographers.</li>
-                                    <li><strong>Unique Flora:</strong> The park features a variety of plant species, including medicinal herbs and beautiful wildflowers, adding to its ecological significance.</li>
-                                    <li><strong>Cultural Significance:</strong> The park is named after Khaptad Baba, a revered figure who meditated in the area. It is a place of spiritual importance for many local people.</li>
-                                    <li><strong>Adventure Opportunities:</strong> Visitors can enjoy activities such as trekking, wildlife viewing, and camping while exploring the park's natural beauty.</li>
-                                </ul>
+<!-- Contact Form Section -->
+<section class="section section-light" id="contact">
+    <div class="container">
+        <div class="section-title">
+            <h2>Get in Touch</h2>
+            <p>Have questions? We'd love to hear from you!</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <form action="{% url 'Home:contact' %}" method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Your Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" name="subject">
+                                </div>
+                                <div class="col-12">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">Send Message</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <h2 class="text-center mb-4"><a href="{% url 'destination' %}"> View More..</a> </h2>
-            </div>
-        </div>
-    </section>
-
-    <!-- Photo Gallery Section -->
-    <section id="gallery" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Photo Gallery</h2>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/mortoli.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/chainpur.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-            <div class="row g-3">
-                <!-- Add your images here -->
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/tribeni.jpg' %}" class="img-fluid" alt="Image 1">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/velata.jpg' %}" class="img-fluid" alt="Image 2">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-img">
-                        <img src="{% static 'images/bajhang.jpg' %}" class="img-fluid" alt="Image 3">
-                    </div>
-                </div>
-                <!-- Repeat for more images -->
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- Contact Us Section -->
-    <section id="contact" class="py-5" style="background-image: url('{% static 'images/Namaste1.jpg' %}'); background-size: cover; background-position: center; background-repeat: no-repeat;color: #ffffff; filter: brightness(100%);">
-        <div class="container">
-            <h2 class="text-center mb-4">Contact Us</h2>
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <form>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Your Name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Your Email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
-                    </form>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
+<!-- Call to Action -->
+<section class="section section-dark" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);">
+    <div class="container text-center text-white color: #fff !important;" >
+        <h2 class="mb-4">Ready to Explore Bajhang?</h2>
+        <p class="lead mb-4">Start your adventure today and discover the hidden gems of Nepal</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'Home:destination_list' %}" class="btn btn-light btn-lg">Start Exploring</a>
+            <a href="{% url 'Home:contact' %}" class="btn btn-outline-light btn-lg">Contact Us</a>
+        </div>
+    </div>
+</section>
 {% endblock %}

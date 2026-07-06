@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Quizzes | Explore Bajhang{% endblock %}
+{% block meta_description %}Test your knowledge about Bajhang with fun quizzes.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 40vh;">
+    <div class="hero-content">
+        <h1>Quizzes</h1>
+        <p class="lead">Test your Bajhang knowledge!</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            {% for quiz in quizzes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body d-flex flex-column justify-content-center p-5">
+                        <i class="fas fa-question-circle fa-3x text-primary mb-4"></i>
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description|truncatewords:20 }}</p>
+                        <p class="small text-muted mb-3">{{ quiz.questions.count }} questions</p>
+                        <button class="btn btn-primary start-quiz" data-quiz-id="{{ quiz.id }}">Start Quiz</button>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="lead">No quizzes available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

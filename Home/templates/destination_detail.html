@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ destination.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ destination.meta_description|default:destination.short_description }}{% endblock %}
+{% block meta_keywords %}{{ destination.title }}, bajhang, nepal, travel{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero-section" style="background-image: url('{{ destination.hero_image.url }}');">
+    <div class="hero-content">
+        <h1>{{ destination.title }}</h1>
+        <p class="lead">{{ destination.short_description }}</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="#description" class="btn btn-primary">Learn More</a>
+            <a href="#gallery" class="btn btn-outline-light">Gallery</a>
+        </div>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:destination_list' %}">Destinations</a></li>
+            <li class="breadcrumb-item active">{{ destination.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<!-- Description -->
+<section class="section" id="description">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">About {{ destination.title }}</h2>
+                <p class="lead">{{ destination.description }}</p>
+
+                {% if destination.history %}
+                <h3 class="mt-5">History</h3>
+                <p>{{ destination.history }}</p>
+                {% endif %}
+
+                {% if destination.culture %}
+                <h3 class="mt-5">Culture</h3>
+                <p>{{ destination.culture }}</p>
+                {% endif %}
+
+                {% if destination.things_to_do %}
+                <h3 class="mt-5">Things to Do</h3>
+                <p>{{ destination.things_to_do }}</p>
+                {% endif %}
+
+                {% if destination.travel_tips %}
+                <h3 class="mt-5">Travel Tips</h3>
+                <p>{{ destination.travel_tips }}</p>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4 class="mb-4"><i class="fas fa-info-circle text-primary me-2"></i>Quick Facts</h4>
+                        {% if destination.location %}
+                        <div class="mb-3">
+                            <strong><i class="fas fa-map-marker-alt text-primary me-2"></i>Location:</strong>
+                            <p class="ms-4 mb-0">{{ destination.location }}</p>
+                        </div>
+                        {% endif %}
+                        {% if destination.best_season %}
+                        <div class="mb-3">
+                            <strong><i class="fas fa-calendar text-primary me-2"></i>Best Season:</strong>
+                            <p class="ms-4 mb-0">{{ destination.best_season }}</p>
+                        </div>
+                        {% endif %}
+                        {% if destination.weather_info %}
+                        <div class="mb-3">
+                            <strong><i class="fas fa-cloud-sun text-primary me-2"></i>Weather:</strong>
+                            <p class="ms-4 mb-0">{{ destination.weather_info }}</p>
+                        </div>
+                        {% endif %}
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-primary"><i class="fas fa-share-alt me-2"></i>Share</button>
+                            <button class="btn btn-outline-primary"><i class="fas fa-bookmark me-2"></i>Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery -->
+{% if destination.images.all %}
+<section class="section section-light" id="gallery">
+    <div class="container">
+        <div class="section-title">
+            <h2>Gallery</h2>
+            <p>Explore {{ destination.images.count }} photos</p>
+        </div>
+        <div class="gallery-grid">
+            {% for image in destination.images.all %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="{{ image.alt_text|default:destination.title }}" loading="lazy">
+                <div class="gallery-overlay">
+                    <span class="gallery-caption">{{ image.caption|default:destination.title }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- FAQs -->
+{% if destination.faqs.all %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="accordion" id="faqAccordion">
+            {% for faq in destination.faqs.all %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" 
+                            data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}">
+                        {{ faq.question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                     data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">{{ faq.answer }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Nearby Attractions -->
+{% if destination.nearby_attractions %}
+<section class="section section-light">
+    <div class="container">
+        <h2 class="mb-4">Nearby Attractions</h2>
+        <p>{{ destination.nearby_attractions }}</p>
+    </div>
+</section>
+{% endif %}
+
+<!-- Map Placeholder -->
+<section class="section">
+    <div class="container">
+        <h2 class="mb-4">Location Map</h2>
+        <div class="ratio ratio-16x9 bg-light rounded-lg">
+            <div class="d-flex align-items-center justify-content-center">
+                <p class="text-muted mb-0"><i class="fas fa-map-marked-alt fa-3x mb-3"></i><br>Interactive map coming soon</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Placeholder -->
+<section class="section section-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Visitor Reviews</h2>
+            <p>Share your experience</p>
+        </div>
+        <div class="card max-w-700 mx-auto">
+            <div class="card-body p-4">
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Your Rating</label>
+                        <div class="rating-stars">
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" rows="3" placeholder="Share your experience..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Destinations -->
+{% if related_destinations %}
+<section class="section">
+    <div class="container">
+        <div class="section-title">
+            <h2>You May Also Like</h2>
+        </div>
+        <div class="row g-4">
+            {% for dest in related_destinations %}
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <img src="{{ dest.hero_image.url }}" class="card-img-top" alt="{{ dest.title }}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ dest.title }}</h5>
+                        <p class="card-text">{{ dest.short_description|truncatewords:15 }}</p>
+                        <a href="{% url 'Home:destination_detail' dest.slug %}" class="btn btn-outline-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "TouristAttraction",
+    "name": "{{ destination.title }}",
+    "description": "{{ destination.short_description }}",
+    "image": "{{ destination.hero_image.url|default:'' }}",
+    "address": "{{ destination.location }}",
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "{{ destination.latitude|default:'29.5' }}",
+        "longitude": "{{ destination.longitude|default:'81.0' }}"
+    }
+}
+</script>
+{% endblock %}

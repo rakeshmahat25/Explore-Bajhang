@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Community Stories | Explore Bajhang{% endblock %}
+{% block meta_description %}Real travel stories and experiences from visitors to Bajhang.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/bajhang.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Community Stories</h1>
+        <p class="lead">Real experiences from travelers like you</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="text-end mb-4">
+            <a href="{% url 'Home:submit_story' %}" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Share Your Story</a>
+        </div>
+        <div class="row g-4">
+            {% for story in stories %}
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            <img src="{{ story.cover_image.url }}" class="img-fluid h-100 rounded-start" alt="{{ story.title }}" style="object-fit: cover;">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ story.title }}</h5>
+                                <p class="card-text small">{{ story.short_description|default:story.content|truncatewords:25 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">By {{ story.author_name }}</small>
+                                    <a href="{% url 'Home:story_detail' story.slug %}" class="btn btn-primary btn-sm">Read</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="empty-state">
+                    <div class="empty-state-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>No Stories Yet</h3>
+                    <p>Be the first to share your Bajhang experience with our community!</p>
+                    <a href="{% url 'Home:submit_story' %}" class="btn btn-primary">Share Your Story</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

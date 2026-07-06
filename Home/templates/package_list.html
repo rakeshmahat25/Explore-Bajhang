@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Travel Packages | Explore Bajhang{% endblock %}
+{% block meta_description %}Curated travel packages for exploring Bajhang, Nepal.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/mortoli.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Travel Packages</h1>
+        <p class="lead">Curated experiences for your perfect trip</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            {% for package in packages %}
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+                            <img src="{{ package.image.url }}" class="img-fluid h-100 rounded-start" alt="{{ package.title }}" style="object-fit: cover;">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ package.title }}</h5>
+                                <p class="card-text small">{{ package.short_description|default:package.description|truncatewords:20 }}</p>
+                                <div class="mb-2">
+                                    <span class="badge bg-primary me-2"><i class="fas fa-clock me-1"></i>{{ package.duration }}</span>
+                                    <span class="badge bg-success">{% if package.discounted_price %}<s class="opacity-50">{{ package.price }} NPR</s> {{ package.discounted_price }} NPR{% else %}{{ package.price }} NPR{% endif %}</span>
+                                </div>
+                                {% if package.includes %}
+                                <p class="small text-muted mb-3">{{ package.includes|truncatewords:15 }}</p>
+                                {% endif %}
+                                <a href="{% url 'Home:package_detail' package.slug %}" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center"><p class="lead">No packages available at the moment.</p></div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

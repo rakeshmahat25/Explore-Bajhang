@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ package.title }} | Explore Bajhang{% endblock %}
+{% block meta_description %}{{ package.short_description|default:package.description|truncatewords:160 }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ package.image.url }}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>{{ package.title }}</h1>
+        <p class="lead">{{ package.duration }}</p>
+        <span class="badge bg-success fs-5">{% if package.discounted_price %}<s class="opacity-75">{{ package.price }} NPR</s> {{ package.discounted_price }} NPR{% else %}{{ package.price }} NPR{% endif %}</span>
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:package_list' %}">Packages</a></li>
+            <li class="breadcrumb-item active">{{ package.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Package Details</h2>
+                <p class="lead">{{ package.description }}</p>
+
+                {% if package.includes %}
+                <h3 class="mt-5">What's Included</h3>
+                <p>{{ package.includes }}</p>
+                {% endif %}
+
+                {% if package.itinerary %}
+                <h3 class="mt-5">Itinerary</h3>
+                <p>{{ package.itinerary|linebreaks }}</p>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style="top: 100px;">
+                    <div class="card-body">
+                        <h4 class="mb-4">Book This Package</h4>
+                        <div class="mb-3">
+                            <strong>Duration:</strong>
+                            <p class="mb-0 ms-4">{{ package.duration }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Max People:</strong>
+                            <p class="mb-0 ms-4">{{ package.max_people }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Price:</strong>
+                            <p class="mb-0 ms-4">
+                                {% if package.discounted_price %}
+                                <span class="text-decoration-line-through text-muted">{{ package.price }} NPR</span><br>
+                                <span class="text-success fw-bold">{{ package.discounted_price }} NPR</span>
+                                {% else %}
+                                <span class="fw-bold">{{ package.price }} NPR</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <form method="post" class="mt-4">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <input type="date" name="check_in" class="form-control" placeholder="Check In">
+                                </div>
+                                <div class="col-6">
+                                    <input type="date" name="check_out" class="form-control" placeholder="Check Out">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="number" name="guests" class="form-control" placeholder="Number of Guests" min="1" value="1">
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="message" class="form-control" rows="2" placeholder="Additional notes..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Request Booking</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

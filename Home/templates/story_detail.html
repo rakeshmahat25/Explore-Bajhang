@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ story.title }} | Community Stories{% endblock %}
+{% block meta_description %}{{ story.short_description }}{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{{ story.cover_image.url }}'); min-height: 60vh;">
+    <div class="hero-content">
+        <h1>{{ story.title }}</h1>
+        <p class="lead">By {{ story.author_name }}</p>
+    </div>
+</section>
+
+<nav aria-label="breadcrumb" class="bg-light py-3">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'Home:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'Home:story_list' %}">Stories</a></li>
+            <li class="breadcrumb-item active">{{ story.title|truncatewords:3 }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <p class="lead">{{ story.short_description }}</p>
+                <hr>
+                <div class="story-content" style="font-size: 1.1rem; line-height: 1.8;">
+                    {{ story.content|linebreaks }}
+                </div>
+
+                {% if story.images.all %}
+                <h3 class="mt-5 mb-3">Photo Gallery</h3>
+                <div class="row g-3">
+                    {% for img in story.images.all %}
+                    <div class="col-md-4">
+                        <img src="{{ img.image.url }}" class="img-fluid rounded" alt="{{ img.caption }}">
+                        {% if img.caption %}<p class="small text-muted">{{ img.caption }}</p>{% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="mt-5 d-flex gap-3">
+                    <span class="fw-bold">Share:</span>
+                    <a href="https://twitter.com/intent/tweet?text={{ story.title }}&url={{ request.build_absolute_uri }}" class="text-primary" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" class="text-primary" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if related_stories %}
+<section class="section section-light">
+    <div class="container">
+        <h3 class="mb-4">More Stories</h3>
+        <div class="row g-4">
+            {% for s in related_stories %}
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{{ s.cover_image.url }}" class="card-img-top" alt="{{ s.title }}" loading="lazy">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ s.title }}</h5>
+                        <a href="{% url 'Home:story_detail' s.slug %}" class="btn btn-outline-primary btn-sm">Read</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

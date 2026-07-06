@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Adventure Activities | Explore Bajhang{% endblock %}
+{% block meta_description %}Trekking, camping, hiking, and more adventure activities in Bajhang, Nepal.{% endblock %}
+
+{% block content %}
+<section class="hero-section" style="background-image: url('{% static 'images/mortoli.jpg' %}'); min-height: 50vh;">
+    <div class="hero-content">
+        <h1>Adventure Activities</h1>
+        <p class="lead">Thrilling experiences for every adventurer</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <form method="get">
+                    <div class="list-group">
+                        <a href="{% url 'Home:adventure_list' %}" class="list-group-item list-group-item-action {% if not request.GET.activity %}active{% endif %}">All Activities</a>
+                        {% for value, label in activity_types %}
+                        <a href="?activity={{ value }}" class="list-group-item list-group-item-action {% if request.GET.activity == value %}active{% endif %}">{{ label }}</a>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-9">
+                <div class="row g-4">
+                    {% for adventure in adventures %}
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="row g-0">
+                                <div class="col-md-5">
+                                    <img src="{{ adventure.hero_image.url }}" class="img-fluid rounded-start h-100" alt="{{ adventure.title }}" style="object-fit: cover;">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="card-body">
+                                        <div class="d-flex gap-2 mb-2">
+                                            <span class="badge bg-primary">{{ adventure.get_activity_type_display }}</span>
+                                            <span class="badge bg-warning text-dark">{{ adventure.get_difficulty_display }}</span>
+                                        </div>
+                                        <h5 class="card-title">{{ adventure.title }}</h5>
+                                        <p class="card-text small">{{ adventure.description|truncatewords:15 }}</p>
+                                        <div class="small text-muted mb-2">
+                                            <i class="fas fa-clock me-1"></i>{{ adventure.duration }}
+                                            <i class="fas fa-map-marker-alt ms-2 me-1"></i>{{ adventure.location }}
+                                        </div>
+                                        <a href="{% url 'Home:adventure_detail' adventure.slug %}" class="btn btn-sm btn-primary">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center">
+                        <p class="lead">No adventures found for this activity type.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
